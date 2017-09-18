@@ -41,16 +41,13 @@ vnoremap < <gv
 vnoremap > >gv
 
 set hlsearch
-" TODO: fix the remove highlights shortcuts
-" noremap <C-n> :nohl<CR>
-" vnoremap <C-n> :nohl<CR>
-" inoremap <C-n> :nohl<CR>
+nnoremap <C-space> :nohl<CR>
+vnoremap <C-space> :nohl<CR>
+inoremap <C-space> <ESC>:nohl<CR>i
 
 filetype off
-
-" "enable this if pathogen plugin is installed
-" call pathogen#runtime_append_all_bundles()
-" call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
 
 set foldmethod=indent
 set foldlevel=99
@@ -59,7 +56,8 @@ filetype on
 au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 set completeopt=menuone,longest,preview
-nmap <leader>a <Esc>:Ack!
+
+
 
 " Add the virtualenv's site-packages to vim path
 py << EOF
@@ -75,6 +73,8 @@ EOF
 
 "// ;# http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
 
+
+
 au InsertLeave * match ExtraWhitespace /\s\+$/
 set t_Co=256
 color wombat256
@@ -82,6 +82,10 @@ highlight ColorColumn ctermbg=24 guibg=#080201
 highlight ExtraWhitespace ctermbg=49 guibg=#00ff00
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=49 guibg=#9988BB
 autocmd ColorScheme * highlight ColorColumn guibg=#0c0c0c
+
+" VIM Python as an IDE
+" https://github.com/mbrochh/vim-as-a-python-ide
+" https://www.youtube.com/watch?v=YhqsjUUHj6g
 
 set guifont=PT_Mono:h14
 set ruler
@@ -102,6 +106,11 @@ set wrap
 nnoremap j gj
 nnoremap k gk
 
-" VIM Python as an IDE
-" https://github.com/mbrochh/vim-as-a-python-ide
-" https://www.youtube.com/watch?v=YhqsjUUHj6g
+" allows cursor change in tmux mode
+" if exists('$TMUX')
+"     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" else
+"     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" endif
