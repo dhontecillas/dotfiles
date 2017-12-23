@@ -46,8 +46,8 @@ vnoremap <C-space> :nohl<CR>
 inoremap <C-space> <ESC>:nohl<CR>i
 
 filetype off
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+" call pathogen#runtime_append_all_bundles()
+" call pathogen#helptags()
 
 set foldmethod=indent
 set foldlevel=99
@@ -60,7 +60,7 @@ set completeopt=menuone,longest,preview
 
 
 " Add the virtualenv's site-packages to vim path
-py << EOF
+py3 << EOF
 import os.path
 import sys
 import vim
@@ -68,7 +68,8 @@ if 'VIRTUAL_ENV' in os.environ:
     project_base_dir = os.environ['VIRTUAL_ENV']
     sys.path.insert(0, project_base_dir)
     activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    execfile(activate_this, dict(__file__=activate_this))
+    # with open(activate_this) as source_file:
+    #     exec(source_file.read())
 EOF
 
 "// ;# http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
@@ -77,7 +78,8 @@ EOF
 
 au InsertLeave * match ExtraWhitespace /\s\+$/
 set t_Co=256
-color wombat256
+"color wombat256
+color desert
 highlight ColorColumn ctermbg=24 guibg=#080201
 highlight ExtraWhitespace ctermbg=49 guibg=#00ff00
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=49 guibg=#9988BB
@@ -87,9 +89,10 @@ autocmd ColorScheme * highlight ColorColumn guibg=#0c0c0c
 " https://github.com/mbrochh/vim-as-a-python-ide
 " https://www.youtube.com/watch?v=YhqsjUUHj6g
 
-set guifont=PT_Mono:h14
+set guifont="DejaVu Sans Mono"
 set ruler
 set cursorline
+highlight CursorLine cterm=bold
 
 " set showcmd
 " filetype indent on

@@ -5,3 +5,6 @@
 \pset pager off
 \set COMP_KEYWORD_CASE upper
 \timing
+\set PROMPT1 '%~%x%# '
+-- \set ON_ERROR_ROLLBACK interactive
+\set HISTFILE ~/.psql_history-:DBNAME
