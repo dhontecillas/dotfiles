@@ -9,7 +9,12 @@ VIM_PLUGINS = (
     'git@github.com:fatih/vim-go.git',
 )
 
+
 HOME = os.environ['HOME']
+
+def install_vim_colors():
+    WOMBAT_256_MOD = "https://www.vim.org/scripts/download_script.php?src_id=13400"
+    WOMBAT_256 = "https://www.vim.org/scripts/download_script.php?src_id=13397"
 
 def install_vim_plugins():
     for vimplugin in VIM_PLUGINS:
