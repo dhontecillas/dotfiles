@@ -14,7 +14,7 @@ syntax on
 
 set nowrap
 set fo-=t
-set colorcolumn=80
+" set colorcolumn=80
 
 set hlsearch
 set incsearch
@@ -36,13 +36,15 @@ nmap <leader>1 :color wombat256<CR>
 nmap <leader>2 :color desert<CR>
 
 nmap <leader>q :%s/\s\+$//g<CR>
+nmap <leader>s :mksession!<CR>
+nmap <leader>S :wall<CR>:mksession!<CR>:qall<CR>
 
 vnoremap < <gv
 vnoremap > >gv
 
 set hlsearch
-nnoremap <C-space> :nohl<CR>
-vnoremap <C-space> :nohl<CR>
+nnoremap <leader>n :nohl<CR>
+vnoremap <leader>n :nohl<CR>
 inoremap <C-space> <ESC>:nohl<CR>i
 
 filetype off
@@ -52,6 +54,8 @@ filetype off
 set foldmethod=indent
 set foldlevel=99
 filetype on
+filetype plugin on
+filetype indent on
 
 au FileType python set omnifunc=pythoncomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
@@ -78,8 +82,8 @@ EOF
 
 au InsertLeave * match ExtraWhitespace /\s\+$/
 set t_Co=256
-"color wombat256
-color desert
+color wombat256
+" color desert
 highlight ColorColumn ctermbg=24 guibg=#080201
 highlight ExtraWhitespace ctermbg=49 guibg=#00ff00
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=49 guibg=#9988BB
@@ -91,7 +95,7 @@ autocmd ColorScheme * highlight ColorColumn guibg=#0c0c0c
 
 set guifont="DejaVu Sans Mono"
 set ruler
-set cursorline
+" set cursorline
 highlight CursorLine cterm=bold
 
 " set showcmd
@@ -117,3 +121,17 @@ nnoremap k gk
 "     let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 "     let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " endif
+
+set path+=**
+
+
+" Shortcuts to use with govim
+nnoremap <leader>gh :GoDoc<CR>
+nnoremap <leader>gtf :GoTestFunc<CR>
+nnoremap <leader>gtt :GoTest<CR>
+
+nnoremap <C-n> :cn<CR>
+nnoremap <C-m> :cp<CR>
+
+nnoremap <C-j> <C-f>
+nnoremap <C-k> <C-b>
