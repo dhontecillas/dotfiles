@@ -34,6 +34,8 @@ map <leader>k <c-w>k
 
 nmap <leader>1 :color wombat256<CR>
 nmap <leader>2 :color desert<CR>
+nmap <leader>3 :color pulumi<CR>
+nmap <leader>4 :color gruvbox<CR>
 
 nmap <leader>q :%s/\s\+$//g<CR>
 nmap <leader>s :mksession!<CR>
@@ -77,8 +79,6 @@ if 'VIRTUAL_ENV' in os.environ:
 EOF
 
 "// ;# http://sontek.net/blog/detail/turning-vim-into-a-modern-python-ide
-
-
 
 au InsertLeave * match ExtraWhitespace /\s\+$/
 set t_Co=256
