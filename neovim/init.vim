@@ -22,6 +22,9 @@ Plug 'preservim/nerdtree'
 
 " Themes
 Plug 'arcticicestudio/nord-vim'
+
+Plug 'tomlion/vim-solidity'
+
 call plug#end()
 " Plugins END
 
@@ -252,3 +255,6 @@ nnoremap <leader>fr :Rg
 " NERDTree
 "
 nnoremap <leader>nt :NERDTree<CR>
+
+" don't know how, <CR> closes the buffer
+nnoremap <CR> j
