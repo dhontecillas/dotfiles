@@ -12,7 +12,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Go Language support (`:GoBuild`,`:GoInstall`, `GoDebugStart`, `GoTest` ...)
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 
 " Install fzf to search for files
 " commands here: https://github.com/junegunn/fzf.vim#commands
@@ -217,6 +217,7 @@ set exrc
 "
 let g:LanguageClient_serverCommands = {
             \ 'rust': ['rust-analyzer'],
+            \ 'go': ['gopls'],
             \}
 
 " shortcuts for rust navigations
@@ -231,28 +232,30 @@ nnoremap <leader>rg :call LanguageClient_textDocument_definition()
 
 
 
+" OLD vim-go configuration:
 "
-" Go setup
+" "
+" " Go setup
+" "
+" let g:go_fmt_command = "goimports"
+" let g:go_gocode_propose_source = 0
+" let g:goauto_type_info = 1
+" let g:go_version_warning = 0
 "
-let g:go_fmt_command = "goimports"
-let g:go_gocode_propose_source = 0
-let g:goauto_type_info = 1
-let g:go_version_warning = 0
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 0
+" let g:go_highlight_operators = 1
+" let g:go_metalinter_autosave = 1
+" "let g:go_metalinter_autosave_enabled = 1
 
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 0
-let g:go_highlight_operators = 1
-let g:go_metalinter_autosave = 1
-"let g:go_metalinter_autosave_enabled = 1
-
-"
-" Shortcuts to use with govim
-nnoremap <leader>gh :GoDoc<CR>
-nnoremap <leader>gtf :GoTestFunc<CR>
-nnoremap <leader>gtt :GoTest<CR>
-nnoremap <leader>gd :GoDebug<CR>
-nnoremap <leader>gi :GoInfo<CR>
+" "
+" " Shortcuts to use with govim
+" nnoremap <leader>gh :GoDoc<CR>
+" nnoremap <leader>gtf :GoTestFunc<CR>
+" nnoremap <leader>gtt :GoTest<CR>
+" nnoremap <leader>gd :GoDebug<CR>
+" nnoremap <leader>gi :GoInfo<CR>
 
 
 
@@ -262,6 +265,14 @@ nnoremap <leader>gi :GoInfo<CR>
 let g:rustfmt_autosave = 1
 :packadd termdebug
 let g:termdebugger="rust-gdb"
+
+
+"
+" Go setup
+"
+" -- to autoformat on write
+" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+
 
 "
 " Fzf
