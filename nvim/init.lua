@@ -21,6 +21,20 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	}
 )
 
+function GoOrgImports(wait_ms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = {only = {"source.organizeImports"}}
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+    for _, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          vim.lsp.util.apply_workspace_edit(r.edit, "UTF-8")
+        else
+          vim.lsp.buf.execute_command(r.command)
+        end
+      end
+    end
+end
 
 local go_on_attach = function(client)
   -- Enable completion triggered by <c-x><c-o>
@@ -34,18 +48,27 @@ local go_on_attach = function(client)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
+  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<leader>wl', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
 end
 
 nvim_lsp.gopls.setup({
     on_attach = go_on_attach,
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+                unreachable = true,
+            },
+            staticcheck = true,
+        },
+    },
 })

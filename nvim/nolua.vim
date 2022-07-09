@@ -272,6 +272,9 @@ let g:termdebugger="rust-gdb"
 "
 " -- to autoformat on write
 " autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+autocmd BufWritePre *.go lua GoOrgImports(1000)
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+
 
 
 "
