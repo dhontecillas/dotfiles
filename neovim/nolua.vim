@@ -5,24 +5,41 @@
 call plug#begin('~/.local/share/nvim/site/autoload')
 
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 
 " Conquer of Completion (with full LSP support, like VSCode)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Go Language support (`:GoBuild`,`:GoInstall`, `GoDebugStart`, `GoTest` ...)
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 
 " Install fzf to search for files
 " commands here: https://github.com/junegunn/fzf.vim#commands
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
+" LSP Config
+"
+Plug 'neovim/nvim-lspconfig'
+Plug 'rust-lang/rust.vim'
+
+
 " File explorer
 Plug 'preservim/nerdtree'
 
+" A personal wiki
+Plug 'vimwiki/vimwiki'
+
+
+" NeoGit ?
+"
+Plug 'nvim-lua/plenary.nvim'
+Plug 'TimUntersberger/neogit'
+
+
 " Themes
 Plug 'arcticicestudio/nord-vim'
-
 Plug 'tomlion/vim-solidity'
 
 call plug#end()
@@ -165,6 +182,10 @@ set wrap
 nnoremap j gj
 nnoremap k gk
 
+
+set splitright
+set splitbelow
+
 " allows cursor change in tmux mode
 " if exists('$TMUX')
 "     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -196,6 +217,7 @@ set exrc
 "
 let g:LanguageClient_serverCommands = {
             \ 'rust': ['rust-analyzer'],
+            \ 'go': ['gopls'],
             \}
 
 " shortcuts for rust navigations
@@ -210,28 +232,30 @@ nnoremap <leader>rg :call LanguageClient_textDocument_definition()
 
 
 
+" OLD vim-go configuration:
 "
-" Go setup
+" "
+" " Go setup
+" "
+" let g:go_fmt_command = "goimports"
+" let g:go_gocode_propose_source = 0
+" let g:goauto_type_info = 1
+" let g:go_version_warning = 0
 "
-let g:go_fmt_command = "goimports"
-let g:go_gocode_propose_source = 0
-let g:goauto_type_info = 1
-let g:go_version_warning = 0
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 0
+" let g:go_highlight_operators = 1
+" let g:go_metalinter_autosave = 1
+" "let g:go_metalinter_autosave_enabled = 1
 
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 0
-let g:go_highlight_operators = 1
-let g:go_metalinter_autosave = 1
-"let g:go_metalinter_autosave_enabled = 1
-
-"
-" Shortcuts to use with govim
-nnoremap <leader>gh :GoDoc<CR>
-nnoremap <leader>gtf :GoTestFunc<CR>
-nnoremap <leader>gtt :GoTest<CR>
-nnoremap <leader>gd :GoDebug<CR>
-nnoremap <leader>gi :GoInfo<CR>
+" "
+" " Shortcuts to use with govim
+" nnoremap <leader>gh :GoDoc<CR>
+" nnoremap <leader>gtf :GoTestFunc<CR>
+" nnoremap <leader>gtt :GoTest<CR>
+" nnoremap <leader>gd :GoDebug<CR>
+" nnoremap <leader>gi :GoInfo<CR>
 
 
 
@@ -239,6 +263,18 @@ nnoremap <leader>gi :GoInfo<CR>
 " Rust setup
 "
 let g:rustfmt_autosave = 1
+:packadd termdebug
+let g:termdebugger="rust-gdb"
+
+
+"
+" Go setup
+"
+" -- to autoformat on write
+" autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+autocmd BufWritePre *.go lua GoOrgImports(1000)
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
+
 
 
 "
@@ -258,3 +294,6 @@ nnoremap <leader>nt :NERDTree<CR>
 
 " don't know how, <CR> closes the buffer
 nnoremap <CR> j
+
+
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
