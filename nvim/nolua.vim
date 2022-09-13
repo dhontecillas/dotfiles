@@ -37,6 +37,10 @@ Plug 'vimwiki/vimwiki'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
 
+" Telescope
+"
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim'
 
 " Themes
 Plug 'arcticicestudio/nord-vim'
@@ -273,7 +277,7 @@ let g:termdebugger="rust-gdb"
 " -- to autoformat on write
 " autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 autocmd BufWritePre *.go lua GoOrgImports(1000)
-autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
+autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync()
 
 
 
@@ -285,12 +289,20 @@ autocmd BufWritePre *.go lua vim.lsp.buf.formatting()
 " let g:ctrlp_map = '<leader>b'
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fr :Rg
+nnoremap <leader>fr :Rg<CR>
 
 "
 " NERDTree
 "
 nnoremap <leader>nt :NERDTree<CR>
+
+"
+" Telescope
+"
+nnoremap <leader>tff <cmd>Telescope find_files<cr>
+nnoremap <leader>tfr <cmd>Telescope live_grep<cr>
+nnoremap <leader>tfb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " don't know how, <CR> closes the buffer
 nnoremap <CR> j

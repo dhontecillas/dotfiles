@@ -21,6 +21,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 	}
 )
 
+
 function GoOrgImports(wait_ms)
     local params = vim.lsp.util.make_range_params()
     params.context = {only = {"source.organizeImports"}}
@@ -58,6 +59,8 @@ local go_on_attach = function(client)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
+
+  vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, bufopts)
 end
 
 nvim_lsp.gopls.setup({
