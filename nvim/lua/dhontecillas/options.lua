@@ -11,7 +11,7 @@ vim.o.autoindent = true
 
 vim.o.number = true
 vim.o.signcolumn = 'auto:3' -- was set to 'no'
-vim.o.nobackup = true
+vim.o.backup = false
 vim.o.nowritebackup = true
 vim.o.noswapfile = true
 
@@ -21,10 +21,10 @@ vim.o.visualbell = true
 -- write the file to disk when :bnext ..
 vim.o.autowrite = true
 
--- 2=indent, eol, start
+-- 2=indent, eol, start (this is now the default)
 -- allow backspace over autoindent, line breaks,
 -- and the start of insert block
-vim.o.bs = 2
+-- vim.o.bs = 'indent,eol,start'
 vim.opt.fo:remove {'t'}
 vim.o.colorcolumn = 80
 
@@ -85,6 +85,7 @@ gmap('v', '>', '>gv', { noremap = true })
 gmap('n', '<leader>n', ':nohl', { noremap = true })
 gmap('v', '<leader>n', ':nohl', { noremap = true })
 gmap('i', '<C-space> <ESC>', ':nohl', { noremap = true })
+
 
 
 local file_type_python = function()
@@ -193,3 +194,5 @@ gmap('n', '<CR>', 'j', { noremap = true })
 
 
 vim.g.vimwiki_list = {{path = '~/vimwiki/', syntax = 'markdown', ext = '.md'}}
+
+vim.keymap.set('n', '<leader>gg', vim.cmd.Git)
