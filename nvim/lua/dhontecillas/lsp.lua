@@ -1,4 +1,25 @@
-local nvim_lsp = require'lspconfig'
+local nvim_lsp = require('lspconfig')
+local util = require('lspconfig/util')
+
+-- Autocompletion: is a little bit annoying, would
+-- be better to have a way to invoke it when needed 
+--
+-- local default_conf = util.default_config
+-- local cmp_nvim_lsp = require('cmp_nvim_lsp')
+-- default_conf.capabilities = vim.tbl_deep_extend(
+--     'force',
+--     default_conf.capabilities,
+--     cmp_nvim_lsp.default_capabilities()
+-- )
+-- local cmp = require('cmp')
+-- cmp.setup({
+--     mapping = cmp.mapping.preset.insert({
+--         ['<C-o>'] = cmp.mapping.complete()
+--     }),
+--     sources = cmp.config.sources({
+--         { name = 'nvim_lsp'},
+--     })
+-- })
 
 local map = vim.api.nvim_set_keymap
 
@@ -26,11 +47,14 @@ local lsp_mappings = function(client)
   vim.keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, bufopts)
 
   vim.keymap.set('n', '<leader>dbg', ':Termdebug', bufopts) 
+
+  -- This does not work well:
+  -- vim.keymap.set('i', '<C-N>', vim.lsp.omnifunc, bufopts)
+
 end
 
 local rust_on_attach = function(client)
     lsp_mappings(client)
-    -- map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {})
 end
 
 nvim_lsp.rust_analyzer.setup({
@@ -63,16 +87,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 -- end
 
 local go_on_attach = function(client)
-  -- Enable completion triggered by <c-x><c-o>
-  -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
+  --
+  vim.keymap.set('n', '<leader>tj', ':GoTagAdd json', bufopts) 
+  vim.keymap.set('n', '<leader>ty', ':GoTagAdd yaml', bufopts) 
   lsp_mappings(client)
 end
 
 nvim_lsp.gopls.setup({
     on_attach = go_on_attach,
+    -- capabilities ? 
     settings = {
         gopls = {
             analyses = {
@@ -80,6 +105,39 @@ nvim_lsp.gopls.setup({
                 unreachable = true,
             },
             staticcheck = true,
+            completeUnimported = true,
         },
     },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+})
+
+
+local python_on_attach = function(client)
+    lsp_mappings(client)
+end
+
+nvim_lsp.pyright.setup({
+    on_attach = python_on_attach,
+    filetypes = {"python"},
+})
+
+
+local null_ls = require("null-ls")
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.diagnostics.mypy,
+        null_ls.builtins.diagnostics.ruff,
+        null_ls.builtins.formatting.black,
+    },
+    filetypes = {"python"},
+})
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.gofmt,
+        null_ls.builtins.formatting.goimports_reviser,
+    },
+    filetypes = {"go"},
 })

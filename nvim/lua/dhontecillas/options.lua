@@ -69,10 +69,13 @@ gmap('', '<leader>h', '<c-w>h', {})
 gmap('', '<leader>j', '<c-w>j', {})
 gmap('', '<leader>k', '<c-w>k', {})
 
-gmap('n', '<leader>1',  ':color wombat256<CR>', {})
-gmap('n', '<leader>2',  ':color nord<CR>', {})
-gmap('n', '<leader>3',  ':color pulumi<CR>', {})
+gmap('n', '<leader>1',  ':color kanagawa-wave<CR>', {})
+gmap('n', '<leader>2',  ':color gruvbox-material<CR>', {})
+gmap('n', '<leader>3',  ':color catppuccin-mocha<CR>', {})
 gmap('n', '<leader>4',  ':color gruvbox<CR>', {})
+gmap('n', '<leader>5',  ':color tokyonight-night<CR>', {})
+gmap('n', '<leader>6',  ':color tokyonight-moon<CR>', {})
+gmap('n', '<leader>7',  ':color iceberg<CR>', {})
 
 
 gmap('n', '<leader>q', ':%s/\\s\\+$//g<CR>', {})
@@ -88,12 +91,16 @@ gmap('i', '<C-space> <ESC>', ':nohl', { noremap = true })
 
 
 
+
 local file_type_python = function()
-    vim.api.nvim_set_option('omnifunc', 'pythoncomplete#Complete')
+    -- vim.api.nvim_set_option('omnifunc', 'pythoncomplete#Complete')
+    vim.api.nvim_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
+
 au('FileType', { pattern = '*.py', callback = file_type_python})
 vim.g.SuperTabDefaultCompletionType = "context"
-vim.g.completeopt = {'menuone', 'longest', 'preview'}
+-- vim.g.completeopt = {'menuone', 'longest', 'preview'}
+vim.g.completeopt = {'menu', 'menuone', 'noselect'}
 
 vim.g.grepprg = 'rg --vimgrep --no-heading'
 -- set grepprg=rg\ --vimgrep\ --no-heading
@@ -137,7 +144,8 @@ gmap('n', '<C-k>', '<C-b>', { noremap = true })
 --
 vim.g['LanguageClient_serverCommands'] = {
     rust = {'rust-analyzer'},
-    go = {'gopls'}
+    go = {'gopls', 'null_ls'},
+    python = {'pyright', 'null_ls'},
 }
 
 -- shortcuts for rust navigations
@@ -155,19 +163,21 @@ vim.g.termdebugger='rust-gdb'
 --
 -- Go setup
 --
--- -- to autoformat on write
--- autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
-au('BufWritePre', {
-    pattern = { '*.go' },
-    callback = vim.lsp.buf.formatting_sync,
+au('BufWritePre', { pattern = { "*.go" }, 
+    callback = function(ev)
+        vim.lsp.buf.format()
+    end
 })
-local auto_go_org_imports = function()
-    GoOrgImports(1000)
-end
-au('BufWritePre', {
-    pattern = { '*.go' },
-    callback = auto_go_org_imports,
-})
+
+-- au('BufWritePre', {command = 'lua vim.lsp.buf.format()'})
+
+-- local auto_go_org_imports = function()
+--     GoOrgImports(1000)
+-- end
+-- au('BufWritePre', {
+--     pattern = { '*.go' },
+--     callback = auto_go_org_imports,
+-- })
 
 --
 -- Fzf
@@ -179,7 +189,9 @@ gmap('n', '<leader>fr', ':Rg<CR>', { noremap = true })
 --
 -- NERDTree
 --
-gmap('n', '<leader>nt', ':NERDTree<CR>', { noremap = true })
+gmap('n', '<leader>nt', ':NERDTreeToggle<CR>', { noremap = true })
+gmap('n', '<leader>ntf', ':NERDTreeFocus<CR>', { noremap = true })
+gmap('n', '<leader>ntt', ':NERDTree<CR>', { noremap = true })
 
 --
 -- Telescope
@@ -196,3 +208,6 @@ gmap('n', '<CR>', 'j', { noremap = true })
 vim.g.vimwiki_list = {{path = '~/vimwiki/', syntax = 'markdown', ext = '.md'}}
 
 vim.keymap.set('n', '<leader>gg', vim.cmd.Git)
+
+
+au('BufWritePre', { pattern = { '*.py' }, callback = vim.lsp.buf.format })
