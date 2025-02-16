@@ -48,6 +48,10 @@ local lsp_mappings = function(client)
 
   vim.keymap.set('n', '<leader>dbg', ':Termdebug', bufopts) 
 
+  vim.keymap.set('n', '<leader>ii', function()
+      local toggle = not vim.lsp.inlay_hint.is_enabled()
+      vim.lsp.inlay_hint.enable(toggle)
+  end, bufopts)
   -- This does not work well:
   -- vim.keymap.set('i', '<C-N>', vim.lsp.omnifunc, bufopts)
 
@@ -92,6 +96,7 @@ local go_on_attach = function(client)
   --
   vim.keymap.set('n', '<leader>tj', ':GoTagAdd json', bufopts) 
   vim.keymap.set('n', '<leader>ty', ':GoTagAdd yaml', bufopts) 
+  vim.lsp.inlay_hint.enable(vim.lsp.inlay_hint.is_enabled() == false, nil)
   lsp_mappings(client)
 end
 
@@ -106,6 +111,10 @@ nvim_lsp.gopls.setup({
             },
             staticcheck = true,
             completeUnimported = true,
+            hints = {
+                parameterNames = true,
+                compositeLiteralFields = true,
+            },
         },
     },
     filetypes = { "go", "gomod", "gowork", "gotmpl" },

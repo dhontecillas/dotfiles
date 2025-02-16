@@ -26,7 +26,7 @@ vim.o.autowrite = true
 -- and the start of insert block
 -- vim.o.bs = 'indent,eol,start'
 vim.opt.fo:remove {'t'}
-vim.o.colorcolumn = 80
+vim.o.colorcolumn = "80"
 
 vim.o.hlsearch = true
 vim.o.incsearch = true
@@ -61,7 +61,7 @@ vim.g.mapleader = ','
 
 -- commands:
 vim.cmd('syntax on')
-vim.cmd('color gruvbox')
+vim.cmd('color sonokai')
 
 
 gmap('', '<leader>l', '<c-w>l', {})
@@ -70,13 +70,16 @@ gmap('', '<leader>j', '<c-w>j', {})
 gmap('', '<leader>k', '<c-w>k', {})
 
 gmap('n', '<leader>1',  ':color kanagawa-wave<CR>', {})
+vim.g.gruvbox_material_background = 'hard'
 gmap('n', '<leader>2',  ':color gruvbox-material<CR>', {})
-gmap('n', '<leader>3',  ':color catppuccin-mocha<CR>', {})
-gmap('n', '<leader>4',  ':color gruvbox<CR>', {})
-gmap('n', '<leader>5',  ':color tokyonight-night<CR>', {})
-gmap('n', '<leader>6',  ':color tokyonight-moon<CR>', {})
-gmap('n', '<leader>7',  ':color iceberg<CR>', {})
+gmap('n', '<leader>3',  ':color iceberg<CR>', {})
+gmap('n', '<leader>4',  ':color melange<CR>', {})
+gmap('n', '<leader>5',  ':color sonokai<CR>', {})
 
+gmap('n', '<leader>6',  ':color tokyonight-moon<CR>', {})
+gmap('n', '<leader>7',  ':color catppuccin-mocha<CR>', {})
+gmap('n', '<leader>8',  ':color tokyonight-night<CR>', {})
+gmap('n', '<leader>9',  ':color challenger-deep<CR>', {})
 
 gmap('n', '<leader>q', ':%s/\\s\\+$//g<CR>', {})
 gmap('n', '<leader>s', ':mksession!<CR>', {})

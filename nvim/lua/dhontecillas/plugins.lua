@@ -44,11 +44,12 @@ Plug 'nvim-treesitter/nvim-treesitter'
 
 -- Themes
 Plug 'rebelot/kanagawa.nvim'
-Plug 'gruvbox-community/gruvbox'
 Plug 'catppuccin/nvim'
 Plug 'sainnhe/gruvbox-material'
 Plug 'folke/tokyonight.nvim'
 Plug 'cocopon/iceberg.vim'
+Plug 'savq/melange-nvim'
+Plug 'sainnhe/sonokai'
 
 -- Python development
 Plug 'jose-elias-alvarez/null-ls.nvim'
